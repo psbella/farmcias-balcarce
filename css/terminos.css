@@ -1,0 +1,52 @@
+body {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+  font-family: system-ui, 'Segoe UI', 'Nunito', sans-serif;
+  padding: 40px 20px;
+  line-height: 1.6;
+}
+body.light {
+  background: var(--bg-light);
+  color: var(--text-light);
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--surface-dark);
+  border-radius: 20px;
+  border: 1px solid var(--border-dark);
+  padding: 30px;
+}
+body.light .container {
+  background: var(--surface-light);
+  border-color: var(--border-light);
+}
+h1 {
+  color: var(--accent);
+  font-size: 1.8rem;
+  margin-bottom: 16px;
+}
+h2 {
+  color: var(--accent);
+  font-size: 1.2rem;
+  margin: 24px 0 12px 0;
+}
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+hr {
+  border: none;
+  border-top: 1px solid var(--border-dark);
+  margin: 24px 0;
+}
+body.light hr {
+  border-top-color: var(--border-light);
+}
+.footer {
+  margin-top: 30px;
+  text-align: center;
+}

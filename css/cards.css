@@ -1,0 +1,105 @@
+/* ==================== TARJETAS ==================== */
+#lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.card.active {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.card-num {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--accent);
+  min-width: 32px;
+  text-align: center;
+  padding-top: 2px;
+}
+
+.card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.card-address {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.card-badge {
+  margin-top: 4px;
+}
+
+.card-phone {
+  display: flex;
+  align-items: center;
+}
+
+/* ==================== BADGE "HOY DE TURNO" ==================== */
+.badge-hoy-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent-dim);
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.badge-hoy-inline .circulo {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+

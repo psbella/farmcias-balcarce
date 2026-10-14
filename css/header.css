@@ -1,0 +1,118 @@
+/* ==================== HEADER ==================== */
+header {
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px 20px;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cross {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.cross::before,
+.cross::after {
+  content: '';
+  position: absolute;
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+.cross::before {
+  width: 12px;
+  height: 32px;
+  left: 10px;
+  top: 0;
+}
+
+.cross::after {
+  width: 32px;
+  height: 12px;
+  left: 0;
+  top: 10px;
+}
+
+.app-title {
+  font-family: 'Bebas Neue', 'Nunito', sans-serif;
+  font-size: 32px;
+  color: var(--text);
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-title svg {
+  height: 32px;
+  width: auto;
+  display: block;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #a3a7ac;
+  margin-left: 30px;
+}
+
+body.light .subtitle {
+  color: var(--muted-light);
+}
+
+/* ==================== TEMA SWITCH ==================== */
+.theme-switch-wrapper {
+  margin-left: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.theme-switch {
+  width: 52px;
+  height: 26px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  position: relative;
+  cursor: pointer;
+}
+
+.theme-slider {
+  width: 20px;
+  height: 20px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  transition: transform 0.2s;
+}
+
+.theme-switch.active .theme-slider {
+  transform: translateX(24px);
+}
+
+.theme-label {
+  font-size: 10px;
+  color: #7d8590;
+}
+

@@ -1,0 +1,201 @@
+/* ==================== BOTONES FLOTANTES ==================== */
+.btn-todas, .btn-volver {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 140px;
+  height: 48px;
+  border-radius: 40px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 1000;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  font-family: 'Nunito', sans-serif;
+}
+
+.btn-todas {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-todas:hover {
+  transform: translateY(-2px);
+  background: #2c974b;
+}
+
+.btn-volver {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-volver:hover {
+  transform: translateY(-2px);
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.btn-volver-app {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 40px;
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: 'Nunito', sans-serif;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+}
+
+.btn-volver-app:hover {
+  transform: translateY(-2px);
+  background: #2c974b;
+}
+
+.light .btn-volver {
+  background: rgba(255, 255, 255, 0.9);
+  color: #1f2328;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.scroll-top-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.scroll-top-btn svg {
+  width: 24px;
+  height: 24px;
+  stroke: white;
+  stroke-width: 2.5;
+}
+
+/* ==================== BOTÓN INSTALAR ==================== */
+.btn-instalar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Nunito', sans-serif;
+}
+
+.btn-instalar svg {
+  stroke: white;
+}
+
+.btn-instalar:hover {
+  transform: translateX(-50%) scale(1.02);
+  background: #2c974b;
+}
+
+/* ==================== MODAL iOS ==================== */
+.ios-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(5px);
+}
+
+.ios-modal-content {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 24px;
+  max-width: 300px;
+  text-align: center;
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.ios-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
+  display: flex;
+}
+
+.ios-modal-close svg {
+  stroke: #7d8590;
+  width: 18px;
+  height: 18px;
+}
+
+.ios-modal-content p {
+  margin: 16px 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ios-modal-content ol {
+  text-align: left;
+  margin: 16px 0;
+  padding-left: 20px;
+  font-size: 13px;
+}
+
+.ios-modal-content li {
+  margin: 12px 0;
+}
+
+.entendido-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+  width: 100%;
+}
+

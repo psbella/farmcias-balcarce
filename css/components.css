@@ -1,0 +1,90 @@
+/* ==================== BADGE VERSIÓN ==================== */
+.badge {
+  background: var(--accent-dim);
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accent);
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+/* ==================== TELÉFONO Y ENLACES ==================== */
+.phone-link {
+  background: var(--accent-dim);
+  padding: 5px 10px;
+  border-radius: 20px;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.phone-link:hover {
+  background: rgba(63, 185, 80, 0.2);
+  transform: scale(1.02);
+}
+
+/* ==================== ICONOS SVG ==================== */
+.icon-location svg,
+.icon-phone svg,
+.icon-intro svg,
+.icon-stats svg {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ==================== OFFLINE ALERT ==================== */
+.offline-alert {
+  background: rgba(248, 81, 73, 0.1);
+  border: 1px solid #f85149;
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f85149;
+}
+
+body.light .offline-alert {
+  border-color: #cf222e;
+  color: #cf222e;
+}
+
+/* ==================== GOOGLE MAPS LINK ==================== */
+.gmaps-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.gmaps-link:hover {
+  text-decoration: underline;
+}
+
+/* ==================== ACCESIBILIDAD: FOCUS VISIBLE ==================== */
+.card:focus-visible,
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.theme-switch:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 30px;
+}
+

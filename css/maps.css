@@ -1,0 +1,67 @@
+/* ==================== MAPAS ==================== */
+#map-desktop {
+  width: 100%;
+  height: 500px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.map-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-radius: 20px 20px 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s;
+  z-index: 1000;
+}
+
+.map-sheet.open {
+  transform: translateY(0);
+}
+
+.map-sheet-header {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.map-sheet-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-sheet-close svg {
+  stroke: #7d8590;
+  transition: stroke 0.2s;
+}
+
+.map-sheet-close:hover svg {
+  stroke: var(--accent);
+}
+
+#map-mobile-sheet {
+  height: 350px;
+  width: 100%;
+}
+
+/* Mapa en modo "Ver todas" - tamaño fijo */
+.modo-todas .col-map {
+  min-width: 518px !important;
+}
+
+.modo-todas #map-desktop {
+  height: 500px !important;
+  width: 518px !important;
+}
+

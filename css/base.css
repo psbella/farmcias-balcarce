@@ -1,0 +1,58 @@
+/* ==================== VARIABLES Y RESET ==================== */
+:root {
+  --bg-dark: #0d1a1b;
+  --surface-dark: #142725;
+  --text-dark: #e6edf3;
+  --border-dark: rgba(126,226,168,0.10);
+  --bg-light: #ecf6f2;
+  --surface-light: #f8fcfa;
+  --text-light: #1f2328;
+  --border-light: rgba(15,61,43,0.12);
+  --accent-dark: #3fb950;
+  --accent-light: #1a7f37;
+  --accent-dim-dark: rgba(63,185,80,0.12);
+  --accent-dim-light: rgba(26,127,55,0.12);
+  --muted-dark: #7d8590;
+  --muted-light: #57606a;
+  --radius: 14px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding-bottom: 80px;
+}
+
+body.dark {
+  --bg: var(--bg-dark);
+  --surface: var(--surface-dark);
+  --text: var(--text-dark);
+  --border: var(--border-dark);
+  --accent: var(--accent-dark);
+  --accent-dim: var(--accent-dim-dark);
+  --muted: var(--muted-dark);
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+body.light {
+  --bg: var(--bg-light);
+  --surface: var(--surface-light);
+  --text: var(--text-light);
+  --border: var(--border-light);
+  --accent: var(--accent-light);
+  --accent-dim: var(--accent-dim-light);
+  --muted: var(--muted-light);
+  background: var(--bg-light);
+  color: var(--text-light);
+}
+

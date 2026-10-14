@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Administrador de farmacias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<div id="login-gate">
+  <div class="login-card">
+    <svg class="login-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="20" r="20" fill="#0f3d2b"/>
+      <rect x="16" y="8" width="8" height="24" rx="2" fill="#3fb950"/>
+      <rect x="8" y="16" width="24" height="8" rx="2" fill="#3fb950"/>
+      <path d="M20 3 A17 17 0 0 1 36 18" fill="none" stroke="#7ee2a8" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <h1>Acceso administrador</h1>
+    <p>Ingresá tu token de GitHub (classic, scope <code>repo</code>) para editar las farmacias.</p>
+    <form id="login-form">
+      <input type="password" id="login-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" required>
+      <button type="submit">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Ingresar
+      </button>
+    </form>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<div id="app" class="container oculto">
+  <h1>Editor de farmacias</h1>
+  <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+  <div class="grid">
+    <div class="panel">
+      <div class="header-row">
+        <h2 id="farm-nombre">Cargando... <span class="badge" id="contador">0/0</span></h2>
+        <select id="select-farmacia" class="select-farmacia"></select>
+      </div>
+      <div class="campo"><label>Nombre</label><input type="text" id="input-nombre"></div>
+      <div class="campo"><label>Dirección</label><textarea id="input-direccion" rows="2"></textarea></div>
+      <div class="campo"><label>Teléfono</label><input type="text" id="input-telefono"></div>
+      <div class="coordenadas"><input type="text" id="input-lat" placeholder="Latitud"><input type="text" id="input-lng" placeholder="Longitud"></div>
+      <div class="buttons">
+        <button id="btn-correcta">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Guardar y siguiente
+        </button>
+        <button id="btn-anterior" class="btn-secundario">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Anterior
+        </button>
+        <button id="btn-gmaps" class="btn-gmaps">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Buscar dirección
+        </button>
+        <button id="btn-descargar" class="btn-descargar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><polyline points="7 9 12 4 17 9"/><line x1="12" y1="4" x2="12" y2="15"/></svg>
+          Guardar en GitHub
+        </button>
+      </div>
+      <div id="estado" class="estado"></div>
+    </div>
+    <div class="panel panel-mapa">
+      <div class="tabs-mapa">
+        <button id="tab-leaflet" class="btn-secundario tab-mapa activa">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+          Editar mapa
+        </button>
+        <button id="tab-gmaps" class="btn-secundario tab-mapa tab-gmaps">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Google Maps
+        </button>
+      </div>
+      <div class="mapa-contenedor">
+        <div id="map"></div>
+        <iframe id="gmaps-frame" class="oculto"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script type="module" src="js/admin/main.js"></script>
+</body>
+</html>

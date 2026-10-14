@@ -1,0 +1,10 @@
+{
+  "name": "farmaciasmdp",
+  "version": "2.10.1",
+  "private": true,
+  "description": "Farmacias de turno en Mar del Plata — PWA estática sin dependencias.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  }
+}

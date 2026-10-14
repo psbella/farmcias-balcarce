@@ -1,0 +1,44 @@
+/* TEAM */
+  Developer: Pablo Bella
+  Role: Diseño, desarrollo, mantenimiento
+  Location: Mar del Plata, Buenos Aires, Argentina
+  Contact: pablo.s.bella@gmail.com
+
+/* SITE */
+  Name: Farmacias de Turno MDP
+  URL: https://psbella.github.io/turnos/
+  Description: Aplicación web para consultar farmacias de turno en Mar del Plata
+  Status: Activa
+  Primera versión: Abril 2026
+  Última actualización: 2026-05-01
+  Idioma: Español (Argentina)
+  Licencia: CC BY-NC 4.0
+
+/* TECH */
+  Frontend: HTML5, CSS3, JavaScript (ES6)
+  Mapas: Leaflet.js + OpenStreetMap
+  PWA: Service Worker, Web App Manifest
+  Iconos: SVG nativos
+  Fuentes: Google Fonts (Bebas Neue, Nunito)
+  Control de versiones: Git + GitHub
+  Hosting: GitHub Pages + dominio propio
+  IDE: Phoenix Code / VS Code
+  Automatización: Script propio (sin tocar servidores ajenos)
+
+/* DATA */
+  Source: Colegio de Farmacéuticos de General Pueyrredon (público)
+  Method: Copia manual + lógica de rotación deducida
+  Update: Automática (el script sabe qué toca cada día)
+  Verificación: Con personal farmacéutico local
+
+  La información se presenta con fines exclusivamente informativos. 
+  Si bien se busca mantenerla actualizada, se recomienda verificar los datos 
+  directamente con la farmacia correspondiente.
+
+  Este sitio no vende productos, no promueve consumo, no recopila datos personales 
+  y no tiene fines comerciales.
+
+  La app fue desarrollada de forma independiente. Su existencia no implica competencia 
+  ni reemplazo de los canales oficiales.
+
+/* EL TÍTULO NO HACE EL CÓDIGO. LAS GANAS, SÍ. */

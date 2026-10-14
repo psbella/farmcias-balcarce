@@ -1,0 +1,76 @@
+/* ==================== MAIN ==================== */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Grid para escritorio (dos columnas) */
+@media (min-width: 768px) {
+  main {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 28px;
+  }
+}
+
+/* Mapa fijo en escritorio */
+.col-map {
+  display: none;
+  position: sticky;
+  top: 100px;
+  align-self: start;
+  z-index: 5;
+}
+
+@media (min-width: 768px) {
+  .col-map {
+    display: block !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .col-map {
+    display: none !important;
+  }
+  .map-sheet {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .map-sheet {
+    display: none !important;
+  }
+}
+
+/* ==================== INTRO ==================== */
+#intro {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.intro-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.stats {
+  font-size: 13px;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
