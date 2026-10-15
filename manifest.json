@@ -1,7 +1,7 @@
 {
-  "name": "Farmacias de Turno MDP",
-  "short_name": "Farma MDP",
-  "description": "Farmacias de turno en Mar del Plata. Encontrá direcciones, teléfonos y ubicación en mapa.",
+  "name": "Farmacias de Balcarce",
+  "short_name": "Farma Balcarce",
+  "description": "Directorio de farmacias de Balcarce. Encontrá direcciones, teléfonos y ubicación en mapa.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

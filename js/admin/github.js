@@ -9,55 +9,30 @@ function utf8ToBase64(str) {
   return btoa(unescape(encodeURIComponent(str)));
 }
 
-/** Aplica las ediciones (state.farmacias) sobre la estructura original de db.json. */
+/** Aplica las ediciones (state.farmacias) sobre la lista original de db.json. */
 export function aplicarEdiciones(dbOriginal, farmacias) {
-  const ciclosData = {};
-  for (const grupo in dbOriginal) {
-    ciclosData[grupo] = [];
-    for (const farmacia of dbOriginal[grupo]) {
-      const key = `${farmacia.nombre}|${farmacia.direccion}`;
-      const encontrada = farmacias.find((f) => f.keyOriginal === key);
-      if (encontrada) {
-        ciclosData[grupo].push({
-          nombre: encontrada.nombre,
-          direccion: encontrada.direccion,
-          telefono: encontrada.telefono,
-          lat: encontrada.lat,
-          lng: encontrada.lng,
-        });
-      } else {
-        ciclosData[grupo].push(farmacia);
-      }
-    }
-  }
-  return ciclosData;
+  return dbOriginal.map((farmacia) => {
+    const key = `${farmacia.nombre}|${farmacia.direccion}`;
+    const encontrada = farmacias.find((f) => f.keyOriginal === key);
+    if (!encontrada) return farmacia;
+    return {
+      nombre: encontrada.nombre,
+      direccion: encontrada.direccion,
+      telefono: encontrada.telefono,
+      lat: encontrada.lat,
+      lng: encontrada.lng,
+    };
+  });
 }
 
-/** Serializa con el mismo formato (2 espacios, un campo por línea) que usa db.json. */
-export function serializarDb(ciclosData) {
-  let jsonStr = '{\n';
-  const grupos = Object.keys(ciclosData);
-  grupos.forEach((grupo, idxGrupo) => {
-    jsonStr += `  "${grupo}": [\n`;
-    ciclosData[grupo].forEach((f, i) => {
-      const lat = f.lat != null ? f.lat : null;
-      const lng = f.lng != null ? f.lng : null;
-      jsonStr += `    {\n`;
-      jsonStr += `      "nombre": "${f.nombre.replace(/"/g, '\\"')}",\n`;
-      jsonStr += `      "direccion": "${f.direccion.replace(/"/g, '\\"')}",\n`;
-      jsonStr += `      "telefono": "${f.telefono}",\n`;
-      jsonStr += `      "lat": ${lat},\n`;
-      jsonStr += `      "lng": ${lng}\n`;
-      jsonStr += `    }`;
-      if (i < ciclosData[grupo].length - 1) jsonStr += ',';
-      jsonStr += '\n';
-    });
-    jsonStr += '  ]';
-    if (idxGrupo < grupos.length - 1) jsonStr += ',';
-    jsonStr += '\n';
+/** Serializa con el formato de db.json: una farmacia por línea, 2 espacios de sangría. */
+export function serializarDb(lista) {
+  const lineas = lista.map((f) => {
+    const lat = f.lat != null ? f.lat : null;
+    const lng = f.lng != null ? f.lng : null;
+    return `  { "nombre": ${JSON.stringify(f.nombre)}, "direccion": ${JSON.stringify(f.direccion)}, "telefono": ${JSON.stringify(f.telefono)}, "lat": ${JSON.stringify(lat)}, "lng": ${JSON.stringify(lng)} }`;
   });
-  jsonStr += '}';
-  return jsonStr;
+  return `[\n${lineas.join(',\n')}\n]\n`;
 }
 
 export async function guardarEnGitHub() {

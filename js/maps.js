@@ -1,9 +1,10 @@
-import { farmaciasCoords, limpiarTelefono } from './data.js';
+import { limpiarTelefono, tieneCoordenadas } from './data.js';
+import { CONFIG } from './config.js';
 import { escapeHtml } from './escape.js';
-import { capFirst } from './ui.js';
 
 let mapDesktop = null;
 let mapMobile = null;
+// Alineados con el índice de la lista: una farmacia sin coordenadas deja un null.
 let markersDesktop = [];
 let markersMobile = [];
 
@@ -16,13 +17,13 @@ const pharmacyIcon = L.divIcon({
 
 export function initMaps() {
   if (!mapDesktop) {
-    mapDesktop = L.map('map-desktop').setView([-38.0055, -57.5426], 12);
+    mapDesktop = L.map('map-desktop').setView(CONFIG.CENTRO, CONFIG.ZOOM_INICIAL);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap'
     }).addTo(mapDesktop);
   }
   if (!mapMobile) {
-    mapMobile = L.map('map-mobile-sheet').setView([-38.0055, -57.5426], 12);
+    mapMobile = L.map('map-mobile-sheet').setView(CONFIG.CENTRO, CONFIG.ZOOM_INICIAL);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap'
     }).addTo(mapMobile);
@@ -30,8 +31,8 @@ export function initMaps() {
 }
 
 export function limpiarMarcadores() {
-  if (mapDesktop) markersDesktop.forEach(m => mapDesktop.removeLayer(m));
-  if (mapMobile) markersMobile.forEach(m => mapMobile.removeLayer(m));
+  if (mapDesktop) markersDesktop.forEach(m => m && mapDesktop.removeLayer(m));
+  if (mapMobile) markersMobile.forEach(m => m && mapMobile.removeLayer(m));
   markersDesktop = [];
   markersMobile = [];
 }
@@ -41,55 +42,35 @@ export function agregarMarcadores(farmacias) {
   limpiarMarcadores();
   const dB = L.latLngBounds(), mB = L.latLngBounds();
 
-  farmacias.forEach((f, i) => {
-    const c = f.lat && f.lng ? [f.lat, f.lng] : null;
-    farmaciasCoords[i] = c;
-
-    const pop = `<b>${escapeHtml(f.nombre)}</b><br>${escapeHtml(f.direccion)}<br>${getPhoneLink(f)}<br><a href="${getGoogleMapsLink(f.direccion)}" target="_blank" class="gmaps-link" rel="noopener noreferrer">Google Maps</a>`;
-
-    if (c) {
-      const mD = L.marker(c, { icon: pharmacyIcon }).addTo(mapDesktop).bindPopup(pop);
-      const mM = L.marker(c, { icon: pharmacyIcon }).addTo(mapMobile).bindPopup(pop);
-      if (mD._icon) {
-        mD._icon.setAttribute('aria-label', `Ver ${f.nombre} en el mapa`);
-        mD._icon.setAttribute('title', f.nombre);
-      }
-      if (mM._icon) {
-        mM._icon.setAttribute('aria-label', `Ver ${f.nombre} en el mapa`);
-        mM._icon.setAttribute('title', f.nombre);
-      }
-      markersDesktop.push(mD);
-      markersMobile.push(mM);
-      dB.extend(c);
-      mB.extend(c);
-    } else {
-      const fb = [-38.0055, -57.5426];
-      const mD = L.marker(fb, { icon: pharmacyIcon }).addTo(mapDesktop).bindPopup(pop + '<br><small>📍 Ubicación aproximada</small>');
-      const mM = L.marker(fb, { icon: pharmacyIcon }).addTo(mapMobile).bindPopup(pop + '<br><small>📍 Ubicación aproximada</small>');
-      if (mD._icon) {
-        mD._icon.setAttribute('aria-label', `Ver ${f.nombre} en el mapa (ubicación aproximada)`);
-        mD._icon.setAttribute('title', f.nombre);
-      }
-      if (mM._icon) {
-        mM._icon.setAttribute('aria-label', `Ver ${f.nombre} en el mapa (ubicación aproximada)`);
-        mM._icon.setAttribute('title', f.nombre);
-      }
-      markersDesktop.push(mD);
-      markersMobile.push(mM);
-      dB.extend(fb);
-      mB.extend(fb);
+  farmacias.forEach((f) => {
+    // Sin coordenadas no se dibuja ningún pin (antes caía en el centro de la ciudad,
+    // lo que mostraba una ubicación falsa). El índice se conserva con un null.
+    if (!tieneCoordenadas(f)) {
+      markersDesktop.push(null);
+      markersMobile.push(null);
+      return;
     }
+
+    const c = [f.lat, f.lng];
+    const pop = `<b>${escapeHtml(f.nombre)}</b><br>${escapeHtml(f.direccion)}<br>${getPhoneLink(f)}<br><a href="${urlGoogleMaps(f.direccion)}" target="_blank" class="gmaps-link" rel="noopener noreferrer">Google Maps</a>`;
+
+    const mD = L.marker(c, { icon: pharmacyIcon }).addTo(mapDesktop).bindPopup(pop);
+    const mM = L.marker(c, { icon: pharmacyIcon }).addTo(mapMobile).bindPopup(pop);
+    [mD, mM].forEach((m) => {
+      if (m._icon) {
+        m._icon.setAttribute('aria-label', `Ver ${f.nombre} en el mapa`);
+        m._icon.setAttribute('title', f.nombre);
+      }
+    });
+    markersDesktop.push(mD);
+    markersMobile.push(mM);
+    dB.extend(c);
+    mB.extend(c);
   });
 
-  if (farmacias.length > 0) {
-    if (mapDesktop && !mapDesktop._initialZoom) {
-      mapDesktop.fitBounds(dB);
-      mapDesktop._initialZoom = true;
-    }
-    if (mapMobile && !mapMobile._initialZoom) {
-      mapMobile.fitBounds(mB);
-      mapMobile._initialZoom = true;
-    }
+  if (dB.isValid()) {
+    mapDesktop.fitBounds(dB, { padding: [30, 30], maxZoom: 16 });
+    mapMobile.fitBounds(mB, { padding: [30, 30], maxZoom: 16 });
   }
 
   setTimeout(() => {
@@ -104,8 +85,8 @@ function getPhoneLink(f) {
   return tClean ? `<a href="tel:${tClean}" class="phone-link" onclick="event.stopPropagation();">${phoneIcon} ${escapeHtml(f.telefono)}</a>` : `<span class="phone-link">${phoneIcon} Sin teléfono</span>`;
 }
 
-function getGoogleMapsLink(direccion) {
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(direccion + ', Mar del Plata')}`;
+export function urlGoogleMaps(direccion) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${direccion}, ${CONFIG.CIUDAD}, ${CONFIG.PROVINCIA}, Argentina`)}`;
 }
 
 function getPhoneIcon() {

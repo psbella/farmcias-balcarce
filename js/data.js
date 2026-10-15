@@ -1,49 +1,18 @@
-import { CONFIG, FECHA_INICIO_CICLO_1 } from './config.js';
+import { CONFIG } from './config.js';
 
-export let ciclosData = {};
-export let farmaciasCoords = [];
-
-export function formatearFechaGMT3() {
-  const a = new Date();
-  const o = { timeZone: CONFIG.ZONA_HORARIA };
-  return new Date(a.toLocaleString('en-US', o));
-}
-
-export function formatearFechaTurno() {
-  const ahora = formatearFechaGMT3();
-  const fechaTurno = new Date(ahora);
-  if (ahora.getHours() < CONFIG.HORA_CAMBIO) {
-    fechaTurno.setDate(fechaTurno.getDate() - 1);
-  }
-  fechaTurno.setHours(0, 0, 0, 0);
-  return fechaTurno;
-}
+// Lista plana de farmacias (db.json), ordenada alfabéticamente.
+export let farmacias = [];
 
 export function limpiarTelefono(t) {
-  return (!t || t === 'nan' || t === 'NaN' || t === 'null') ? '' : t.replace(/\s/g, '');
+  return (!t || t === 'nan' || t === 'NaN' || t === 'null') ? '' : String(t).replace(/\s/g, '');
 }
 
-export function obtenerCicloActual() {
-  const ahora = formatearFechaGMT3();
-  let fechaTurno = new Date(ahora);
-
-  if (ahora.getHours() < CONFIG.HORA_CAMBIO) {
-    fechaTurno.setDate(fechaTurno.getDate() - 1);
-  }
-
-  const totalCiclos = Object.keys(ciclosData).filter(k => !isNaN(k)).length || 16;
-  const fechaBase = new Date(FECHA_INICIO_CICLO_1);
-  fechaBase.setHours(0, 0, 0, 0);
-  const fechaCalc = new Date(fechaTurno);
-  fechaCalc.setHours(0, 0, 0, 0);
-  const diffDias = Math.floor((fechaCalc - fechaBase) / 86400000);
-  return ((diffDias % totalCiclos) + totalCiclos) % totalCiclos + 1;
+export function tieneCoordenadas(f) {
+  return Number.isFinite(f.lat) && Number.isFinite(f.lng);
 }
 
-export async function obtenerFarmaciasDelDia() {
-  const ciclo = obtenerCicloActual();
-  const farmacias = ciclosData[ciclo] || [];
-  return [...farmacias].sort((a, b) => a.nombre.localeCompare(b.nombre));
+export function ordenarFarmacias(lista) {
+  return [...lista].sort((a, b) => a.nombre.localeCompare(b.nombre));
 }
 
 export async function cargarDatos() {
@@ -52,7 +21,9 @@ export async function cargarDatos() {
   try {
     const r = await fetch(CONFIG.RUTA_JSON + '?t=' + Date.now());
     if (!r.ok) throw new Error('HTTP ' + r.status);
-    ciclosData = await r.json();
+    const data = await r.json();
+    if (!Array.isArray(data)) throw new Error('db.json no es una lista de farmacias');
+    farmacias = ordenarFarmacias(data);
     return true;
   } catch (e) {
     console.error('Error al cargar db.json:', e);

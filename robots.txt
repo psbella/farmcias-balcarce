@@ -7,6 +7,4 @@ Allow: /
 User-agent: Twitterbot
 Allow: /
 
-Disallow: /ciclos_oficiales_definitivo.json
-
-Sitemap: https://farmaciasmdp.com.ar/sitemap.xml
+Sitemap: https://balcarce.remedi.ar/sitemap.xml

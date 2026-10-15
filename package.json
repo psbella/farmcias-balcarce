@@ -1,8 +1,8 @@
 {
-  "name": "farmaciasmdp",
-  "version": "2.10.1",
+  "name": "farmacias-balcarce",
+  "version": "1.0.0",
   "private": true,
-  "description": "Farmacias de turno en Mar del Plata — PWA estática sin dependencias.",
+  "description": "Directorio de farmacias de Balcarce — PWA estática sin dependencias.",
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.mjs"

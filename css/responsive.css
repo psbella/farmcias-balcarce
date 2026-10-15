@@ -1,11 +1,5 @@
 /* ==================== RESPONSIVE ==================== */
 @media (max-width: 768px) {
-  .btn-todas, .btn-volver {
-    width: 120px;
-    height: 44px;
-    font-size: 12px;
-  }
-
   .scroll-top-btn {
     width: 44px;
     height: 44px;

@@ -1,9 +1,8 @@
-const CACHE_NAME = 'farmaturnos-v17';
+const CACHE_NAME = 'farmacias-balcarce-v1';
 const urls = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/config.json',
   '/privacidad.html',
   '/terminos.html',
   '/css/base.css',
@@ -54,18 +53,22 @@ self.addEventListener('install', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Para archivos JSON y datos dinámicos: network-first (siempre buscar fresco)
-  if (url.pathname.endsWith('.json') || url.pathname.includes('db.json')) {
+  // Para archivos JSON y datos dinámicos: network-first (siempre buscar fresco).
+  // El cliente pide db.json?t=<timestamp> para saltear la caché HTTP; si se guardara
+  // con esa URL, cada visita agregaría una entrada nueva y offline nunca coincidiría.
+  // Se usa una clave sin query string.
+  if (url.pathname.endsWith('.json')) {
+    const clave = new Request(url.origin + url.pathname);
     event.respondWith(
       fetch(event.request)
         .then((response) => {
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseClone);
-          });
+          if (response.ok) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(clave, responseClone));
+          }
           return response;
         })
-        .catch(() => caches.match(event.request))
+        .catch(() => caches.match(clave))
     );
     return;
   }

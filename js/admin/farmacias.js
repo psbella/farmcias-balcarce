@@ -6,24 +6,15 @@ import { actualizarMapa, actualizarGoogleMaps, moverMarcador, alMoverMarcador } 
 
 export async function cargarFarmacias() {
   const res = await fetch('db.json');
-  const ciclosData = await res.json();
-  const unicas = new Map();
-  for (const grupo in ciclosData) {
-    for (const f of ciclosData[grupo]) {
-      const key = `${f.nombre}|${f.direccion}`;
-      if (!unicas.has(key)) {
-        unicas.set(key, {
-          nombre: f.nombre,
-          direccion: f.direccion,
-          telefono: f.telefono,
-          lat: f.lat,
-          lng: f.lng,
-          keyOriginal: key,
-        });
-      }
-    }
-  }
-  state.farmacias = Array.from(unicas.values());
+  const db = await res.json();
+  state.farmacias = db.map((f) => ({
+    nombre: f.nombre,
+    direccion: f.direccion,
+    telefono: f.telefono,
+    lat: f.lat,
+    lng: f.lng,
+    keyOriginal: `${f.nombre}|${f.direccion}`,
+  }));
   state.farmacias.sort((a, b) => a.nombre.localeCompare(b.nombre));
   poblarSelect();
   actualizarProgreso();

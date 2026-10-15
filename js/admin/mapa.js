@@ -2,7 +2,7 @@
 import { $ } from './dom.js';
 import { state } from './state.js';
 import { setEstado } from './estado.js';
-import { CENTRO_MDP, SUFIJO_CIUDAD } from './config.js';
+import { CENTRO_CIUDAD, ZOOM_CIUDAD, NOMBRE_CIUDAD, SUFIJO_CIUDAD } from './config.js';
 
 const iconoFarmacia = L.divIcon({
   className: 'custom-pharmacy-icon',
@@ -40,7 +40,7 @@ export function alMoverMarcador(fn) { onMarcadorMovido = fn; }
 
 export function actualizarMapa(f) {
   if (!state.map) {
-    state.map = L.map('map').setView(CENTRO_MDP, 12);
+    state.map = L.map('map').setView(CENTRO_CIUDAD, ZOOM_CIUDAD);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(state.map);
   }
   if (state.marker) state.map.removeLayer(state.marker);
@@ -48,7 +48,7 @@ export function actualizarMapa(f) {
 
   const lat = parseFloat($('input-lat').value);
   const lng = parseFloat($('input-lng').value);
-  const pos = (!isNaN(lat) && !isNaN(lng)) ? [lat, lng] : CENTRO_MDP;
+  const pos = (!isNaN(lat) && !isNaN(lng)) ? [lat, lng] : CENTRO_CIUDAD;
 
   state.marker = L.marker(pos, { draggable: true, icon: iconoFarmacia }).addTo(state.map);
   state.marker.bindPopup(crearPopupFarmacia(f)).openPopup();
@@ -124,7 +124,7 @@ export async function buscarDireccion() {
   const queries = [
     f.direccion + SUFIJO_CIUDAD,
     f.direccion.replace(/AV\.? ?/i, 'Avenida ') + SUFIJO_CIUDAD,
-    f.direccion + ', Mar del Plata',
+    f.direccion + ', ' + NOMBRE_CIUDAD,
     f.direccion,
   ];
 
